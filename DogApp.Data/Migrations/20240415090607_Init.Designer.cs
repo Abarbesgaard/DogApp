@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogApp.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240326061409_Init")]
+    [Migration("20240415090607_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -33,14 +33,17 @@ namespace DogApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ItemCategory")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsSign")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -53,49 +56,54 @@ namespace DogApp.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Description of Sign 1",
-                            Image = "hest",
-                            ItemCategory = 0,
-                            Name = "Sign 1"
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/hojresving",
+                            IsSign = true,
+                            Name = "højre sving"
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Description of Sign 2",
-                            Image = "hest",
-                            ItemCategory = 0,
-                            Name = "Sign 2"
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/venstresving",
+                            IsSign = true,
+                            Name = "venstre sving"
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Description of Sign 3",
-                            Image = "hest",
-                            ItemCategory = 0,
-                            Name = "Sign 3"
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/hojrerundt",
+                            IsSign = true,
+                            Name = "højre rundt"
                         },
                         new
                         {
                             Id = 4,
-                            Description = "Description of Sign 4",
-                            Image = "hest",
-                            ItemCategory = 0,
-                            Name = "Sign 4"
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/venstrerundt",
+                            IsSign = true,
+                            Name = "venstre rundt"
                         },
                         new
                         {
                             Id = 5,
-                            Description = "Description of Sign 5",
-                            Image = "hest",
-                            ItemCategory = 0,
-                            Name = "Sign 5"
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/diagonalthojre",
+                            IsSign = true,
+                            Name = "diagonalt højre"
                         },
                         new
                         {
                             Id = 6,
                             Description = "Description of Extra 1",
                             Image = "hest",
-                            ItemCategory = 1,
+                            IsSign = false,
                             Name = "Extra 1"
                         },
                         new
@@ -103,7 +111,7 @@ namespace DogApp.Data.Migrations
                             Id = 7,
                             Description = "Description of Extra 2",
                             Image = "hest",
-                            ItemCategory = 1,
+                            IsSign = false,
                             Name = "Extra 2"
                         },
                         new
@@ -111,7 +119,7 @@ namespace DogApp.Data.Migrations
                             Id = 8,
                             Description = "Description of Extra 3",
                             Image = "hest",
-                            ItemCategory = 1,
+                            IsSign = false,
                             Name = "Extra 3"
                         },
                         new
@@ -119,7 +127,7 @@ namespace DogApp.Data.Migrations
                             Id = 9,
                             Description = "Description of Extra 4",
                             Image = "hest",
-                            ItemCategory = 1,
+                            IsSign = false,
                             Name = "Extra 4"
                         },
                         new
@@ -127,7 +135,7 @@ namespace DogApp.Data.Migrations
                             Id = 10,
                             Description = "Description of Extra 5",
                             Image = "hest",
-                            ItemCategory = 1,
+                            IsSign = false,
                             Name = "Extra 5"
                         });
                 });
@@ -160,25 +168,25 @@ namespace DogApp.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Category = "Category A",
+                            Category = " Champion",
                             Height = 100,
-                            Name = "Rally 1",
+                            Name = "Rallybane 1",
                             Width = 200
                         },
                         new
                         {
                             Id = 2,
-                            Category = "Category B",
+                            Category = "Open ",
                             Height = 150,
-                            Name = "Rally 2",
+                            Name = "Rallybane 2",
                             Width = 250
                         },
                         new
                         {
                             Id = 3,
-                            Category = "Category C",
+                            Category = "Beginder",
                             Height = 120,
-                            Name = "Rally 3",
+                            Name = "Rallybane 3",
                             Width = 180
                         });
                 });
