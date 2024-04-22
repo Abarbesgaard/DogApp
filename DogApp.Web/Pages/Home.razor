@@ -1,0 +1,35 @@
+﻿@using DogApp.Web.Dto
+@using DogApp.Web.Services.Interfaces
+@using DogApp.Web.Shared
+@using DogApp.Web.Dto.ItemDtos
+@inject IJSRuntime JS
+@inject ITrackService TrackService
+@inject IItemService ItemService
+
+@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<SortableList Items="items" Context="item">
+    <SortableItemTemplate>
+        <div>
+            <p>@item.Name</p>
+        </div>
+    </SortableItemTemplate>
+</SortableList>
+
+
+@code {
+
+    public List<ItemDto> items = new();
+    public ItemDto item = new ItemDto();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        items = await ItemService.GetAllItems();
+        StateHasChanged();
+    }
+}
