@@ -1,11 +1,22 @@
 @startuml SeBane 
-title Se Bane \n SSD
-skinparam style strictuml
-actor Bruger
-participant System as sys
-Bruger -> sys: Tilgår System
-sys --> Bruger: Viser inputside(Bane)
-Bruger ->sys: Vælg bane
-sys --> Bruger: Viser bane
+title Se Bane
+legend top
+**Sporbarhed**
+
+|Artefakt| Navn |
+|UC| Se Bane|
+|**SSD**| **Se Bane** |
+|OC| SeBane|
+|SD| ViewOneTrack |
+end legend
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
+actor "Auth. Bruger" as Bruger
+participant System 
+$PlainMessage(Bruger, System,Tilgår System)
+$PlainReturnMessage(Bruger, System,Viser inputside(Bane))
+$PlainMessage(Bruger, System, Vælger bane)
+$PlainReturnMessage(Bruger, System,Viser bane)
+
 
 @enduml
