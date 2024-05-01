@@ -1,8 +1,10 @@
 
-using DogApp.Data;
+using DogApp.Shared;
 using DogApp.Repository;
 using DogApp.Services;
+using DogApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using DogApp.Data;
 
 namespace DogApp.API;
 
@@ -25,14 +27,17 @@ public class Program
             options.AddPolicy(MyAllowSpecificOrigins,
                 policy =>
                 {
-                    policy.WithOrigins("https://localhost:7284")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
+                    policy.WithOrigins("https://localhost:7243").AllowAnyHeader().AllowAnyMethod();
+
+                }
+                );
         });
         // Registrerer services i containeren.
-        builder.Services.AddScoped<ITrackRepo, TrackRepo>(); 
+        builder.Services.AddScoped<ITrackRepo, TrackRepo>();
         builder.Services.AddScoped<ITrackService, TrackService>();
+
+        builder.Services.AddScoped<IItemRepo, ItemRepo>();
+        builder.Services.AddScoped<IItemService, ItemService>();
 
         // Konfigurerer DbContext.
         builder.Services.AddDbContext<DataContext>(options =>
@@ -41,11 +46,11 @@ public class Program
         }
         );
         builder.Services.AddControllersWithViews();
-        
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddAutoMapper(typeof(Program));
+        //builder.Services.AddAutoMapper(typeof(Program));
 
         var app = builder.Build();
 

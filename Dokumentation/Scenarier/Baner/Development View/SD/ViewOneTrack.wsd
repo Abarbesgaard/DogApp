@@ -1,0 +1,80 @@
+@startuml SeBane
+
+title SD:  ViewOneTrack 
+legend top
+**Sporbarhed**
+
+|Artefakt| Navn |
+|UC| Se Bane|
+|SSD| Se Bane |
+|OC| SeBane|
+|**SD**| **ViewOneTrack** |
+end legend
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
+
+actor User
+box "DogApp.Web"
+participant "View" as UI
+end box
+box "DogApp.Api"
+participant "Track Controller" as TrackController
+end box
+box "DogApp.Services" 
+participant "Track Service" as TrackService
+end box
+box "DogApp.Repositories"
+participant "Track Repository" as TrackRepo
+end box
+box "DogApp.Data"
+participant "DataContext" as DataContext
+end box
+database "Database" as Db
+
+
+$Message(User, UI, GetTrack, TrackID : int )
+activate UI 
+$Message(UI, TrackController , GetTrackById, Id : int)
+opt if track service is null
+$ReturnMessage(UI,TrackController,InvalidOperationException, ErrorMSG)
+end
+
+alt Try Block Success
+activate TrackController 
+$Message(TrackController ,TrackService, GetTrackById, id)
+activate TrackService
+$Message(TrackService, TrackRepo, GetTrackById, id : int)
+deactivate TrackService 
+activate TrackRepo
+$Message(TrackRepo, DataContext, GetTrackById, id : int)
+deactivate TrackRepo
+activate DataContext
+$PlainMessage(DataContext, Db, Database Call)
+deactivate DataContext
+activate Db
+$PlainReturnMessage(DataContext, Db, return specific track)
+deactivate Db
+activate DataContext
+$PlainReturnMessage(TrackRepo, DataContext, return specific track)
+deactivate DataContext
+activate TrackRepo
+$PlainReturnMessage(TrackService, TrackRepo, return specific track)
+deactivate TrackRepo
+activate TrackService
+$PlainReturnMessage(TrackController, TrackService, return specific track)
+deactivate TrackService
+opt if track is null
+$PlainReturnMessage(UI, TrackController, NotFound)
+end
+$PlainMessage(TrackController, TrackController, Create TrackDto)
+$ReturnMessage(UI, TrackController, OK, TrackDto)
+$PlainReturnMessage(User, UI, A Track)
+
+else
+$ReturnMessage(UI, TrackController, StatusCode, 500)
+$PlainReturnMessage(User, UI, ErrorMSG)
+
+
+end
+
+@enduml
